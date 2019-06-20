@@ -5,7 +5,14 @@ import kr.or.ddit.board.dao.IboardDao;
 public class BoardService implements IboardService {
 	private IboardDao boardDao;
 	private String name;
-
+	
+	public BoardService() {
+	}
+	public BoardService(IboardDao boardDao) {
+		this.boardDao = boardDao;
+	}
+	
+	
 	public IboardDao getBoardDao() {
 		return boardDao;
 	}
