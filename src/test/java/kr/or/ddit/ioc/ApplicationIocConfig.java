@@ -18,6 +18,8 @@ public class ApplicationIocConfig {
 		return new BoardDao();
 	}
 	
+	
+	
 	/*
 	<bean id="boardService" class="kr.or.ddit.board.service.BoardService">
 	<property name="name" value="brown"/>

@@ -1,8 +1,14 @@
 package kr.or.ddit.board.service;
 
+import org.springframework.stereotype.Service;
+
 import kr.or.ddit.board.dao.IboardDao;
 
+@Service
 public class BoardService implements IboardService {
+	
+	//property of filed
+	
 	private IboardDao boardDao;
 	private String name;
 	
