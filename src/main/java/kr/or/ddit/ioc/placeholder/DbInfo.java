@@ -49,7 +49,7 @@ public class DbInfo implements ApplicationContextAware {
 	}
 	
 	public void init() {
-		logger.debug("init method");
+		logger.debug("init method"); //초기화를 시킨다,...라ㅓ...
 	}
 	
 	
