@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+   <!-- 전체  사용자 리스트 조회 -->
+   <select id="userList" resultType="userVo">
+      SELECT *
+      FROM USERS
+      ORDER BY USERID
+   </select>
+
+   <!-- 특정 사용자 조회 -->
+   <select id="getUser" resultType="userVo" parameterType="String">
+      SELECT *
+      FROM USERS
+      WHERE USERID = #{userId}
+   </select>
+   
+   <!-- 사용자 페이지 리스트 조회 -->
+   <!-- pageVo : int page, int pageSize -->
+   <!-- <select id="userPagingList" resultType="userVo" parameterType="pageVo">
+      SELECT *
+      FROM(SELECT a.*, rownum rn
+           FROM (SELECT a.*
+                 FROM   USERS a
+                 ORDER BY USERID) a )
+           WHERE rn &gt;= 1 and rn &lt;= 10
+           
+      <![CDATA[
+      SELECT c.*
+      FROM(SELECT b.*, ROWNUM rn
+           FROM (SELECT a.*
+                 FROM   USERS a
+                 ORDER BY USERID) b ) c
+      WHERE rn >= (#{page} - 1) * #{pageSize} + 1 and rn <= #{page} * #{pageSize}
+      ]]>
+   </select> -->
+   
+   <!-- 전체 사용자 수 조회 -->
+   <select id="usersCnt" resultType="int">
+      SELECT /*+ INDEX_FFS(USERS PK_USERS)*/ COUNT(*)
+      FROM   USERS
+   </select>
+   
+   <!-- 사용자 등록 -->
+   <insert id="insertUser" parameterType="userVo">
+      INSERT INTO USERS
+      VALUES (#{userId}, #{name}, #{alias}, #{pass}, #{addr1}, #{addr2}, #{zipcd}, 
+            #{birth}, #{path, jdbcType=VARCHAR}, #{filename, jdbcType=VARCHAR})
+   </insert>
+   
+   <!-- 사용자 삭제 -->
+   <delete id="deleteUser" parameterType="String">
+      DELETE USERS
+      WHERE  USERID=#{userId}
+   </delete>
+   
+   <!-- 사용자 정보 수정 -->
+   <update id="updateUser" parameterType="userVo">
+      UPDATE USERS
+      SET    NAME = #{name},
+             ALIAS = #{alias},
+             PASS = #{pass},
+             ADDR1 = #{addr1},
+             ADDR2 = #{addr2},
+             ZIPCD = #{zipcd},
+             BIRTH = #{birth},
+             <!-- <if test="path != null">
+                ,path=#{path}, filename=#{filename}
+             </if> -->
+             PATH = #{path, jdbcType=VARCHAR},
+             FILENAME = #{filename, jdbcType=VARCHAR}
+      WHERE  USERID = #{userId}
+   </update>
+   
+   <!-- 사용자 비밀번호 암호화 적용 대상 조회 -->
+   <select id="userListForPassEncrypt" resultType="userVo">
+      SELECT *
+      FROM   USERS
+      WHERE  USERID NOT IN ('BROWN', 'USERTEST')
+   </select>
+   
+   <!-- 사용자 비밀번호 업데이트 -->
+   <update id="updateUserEncryptPass" parameterType="userVo">
+      UPDATE USERS
+      SET      PASS = #{pass}
+      WHERE  USERID = #{userId}
+   </update>
+   
+</mapper>
