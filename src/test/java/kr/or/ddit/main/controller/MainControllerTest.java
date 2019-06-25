@@ -59,21 +59,86 @@ public class MainControllerTest extends ControllerEnv {
 		/***Then***/
 		assertEquals("main", viewName);
 		assertEquals("brown", userId);
+		assertNotNull(mav.getModel().get("rangers"));
+		assertNotNull(mav.getModel().get("userVo"));
 	}
 	
 	
 	@Test
 	public void mainVeiwAndExpectTest() throws Exception {
-		//***Given***/
-		
-
-		/***When***/
-	
-		
 		mockMvc.perform(get("/main")).andExpect(status().isOk()) //main url 로 요청을 보냈을때 응답상태여야한다.
 									 .andExpect(view().name("main"))
-									 .andExpect(model().attribute("mainUserId", "brown"));
-				
-		/***Then***/
+									 .andExpect(model().attribute("mainUserId", "brown"))
+									 .andExpect(model().attributeExists("rangers"))
+									 .andExpect(model().attributeExists("userVo"));
 	}
+	
+	/**
+	 * Method : mainViewMavTest
+	 * 작성자 : PC21
+	 * 변경이력 :
+	 * Method 설명 :ModelAndView 객체를 이용한 main 페이지 요청 테스트
+	 * @throws Exception 
+	 */
+	@Test
+	public void mainViewMavTest() throws Exception {
+		/***Given***/
+	
+		/***When***/
+		MvcResult mvcResult = mockMvc.perform(get("/mainMav")).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		/***Then***/
+		
+		//viewName이 기대하는 문자열로 리턴 되는지(mav 에서 네임값을 반환하는지)
+		assertEquals("main", mav.getViewName());
+		//model객체에 controller에서 설정한 속성이 있는지
+		assertEquals("brown", mav.getModel().get("mainUserId"));
+		assertNotNull(mav.getModel().get("rangers"));
+		
+	}
+	
+	
+	/**
+	 * Method : pathvarableTest
+	 * 작성자 : PC21
+	 * 변경이력 :
+	 * Method 설명 : @Pathvariable 테스트
+	 * @throws Exception 
+	 */
+	@Test
+	public void pathvarableTest() throws Exception {
+		mockMvc.perform(get("/main/pathvariable/brown"))
+						.andExpect(status().is(200))
+						.andExpect(view().name("main"));
+	}
+	
+	/**
+	 * Method : pathvarableTest
+	 * 작성자 : PC21
+	 * 변경이력 :
+	 * Method 설명 : @Pathvariable 테스트
+	 * @throws Exception 
+	 */
+	@Test
+	public void pathvarableTest2() throws Exception {
+		mockMvc.perform(get("/main/pathvariable/sally"))
+						.andExpect(status().is(200))
+						.andExpect(view().name("main"));
+	}
+	
+	
+	/**
+	 * Method : pathvarableTest
+	 * 작성자 : PC21
+	 * 변경이력 :
+	 * Method 설명 : @RequestHeader Test
+	 * @throws Exception 
+	 */
+	@Test
+	public void requestHeaderTest() throws Exception {
+		mockMvc.perform(get("/main/header").accept("text/html"))
+						.andExpect(status().is(200))
+						.andExpect(view().name("main"));
+	}
+	
 }

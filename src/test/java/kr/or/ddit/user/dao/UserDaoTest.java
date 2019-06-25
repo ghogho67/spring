@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import kr.or.ddit.page.model.PageVo;
 import kr.or.ddit.testenv.LogicTestEnv;
 import kr.or.ddit.user.model.UserVo;
 
@@ -97,6 +99,67 @@ public class UserDaoTest extends LogicTestEnv{
 			assertEquals("곰", userVo.getAlias());
 		}
 		
+		/**
+		 * Method : userCnt
+		 * 작성자 : PC21
+		 * 변경이력 :
+		 * @return
+		 * Method 설명 : 사용자 전체수 조회 테스트
+		 */
+		@Test
+		public void userCntTest() {
+			/***Given***/
+			
+			/***When***/
+			int userCnt = userDao.userCnt();
+			/***Then***/
+			
+			assertNotNull(userCnt);
+			assertEquals(109, userCnt);
+		}
+		
+		/**
+		 * Method : updateUser
+		 * 작성자 : PC21
+		 * 변경이력 :
+		 * @param userVo
+		 * @return
+		 * Method 설명 :사용자 업데이트
+		 */
+		@Test
+		public void updateUser() throws ParseException {
+			/***Given***/
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date birth = sdf.parse("2090-01-07");
+			
+			UserVo userVo = new UserVo("user1", "공부", "배짱이", "user11234", "대전", "길바닥", "12354", birth);
+			/***When***/
+			int userUpdate = userDao.updateUser(userVo);
+			/***Then***/
+			
+			assertNotNull(userUpdate);
+			assertEquals(1, userUpdate);
+		}
+		
+		/**
+		 * Method : userPagingList
+		 * 작성자 : PC21
+		 * 변경이력 :
+		 * @param pageVo
+		 * @return
+		 * Method 설명 : 사용자 페이징 
+		 */
+		@Test
+		public void userPagingList() {
+			/***Given***/
+			PageVo pageVo = new PageVo(1,5);
+
+			/***When***/
+			List<UserVo> userList = userDao.userPagingList(pageVo);
+			
+			/***Then***/
+			assertEquals(5, userList.size());
+		}
 
 
 }
