@@ -5,18 +5,23 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 @ContextConfiguration({"classpath:kr/or/ddit/config/spring/application-datasource-dev.xml",
-					   "classpath:kr/or/ddit/config/spring/application-transaction.xml",
-					   "classpath:kr/or/ddit/config/spring/root-context.xml"})
-public class LogicTestEnv {
+	   "classpath:kr/or/ddit/config/spring/application-transaction.xml",
+	   "classpath:kr/or/ddit/config/spring/root-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+
+public class LogicTestEnv{
 	
 	@Resource(name ="datasource")
 	private DataSource datasource;
@@ -29,5 +34,8 @@ public class LogicTestEnv {
 	}
 	
 	
+	@Ignore
+	@Test
+	public void test() {}
 
 }

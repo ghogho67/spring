@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="false"> <!-- 디폴트 필터를 껏기 때문에 자동으로 잡아주진않는다. -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>	
+	</context:component-scan>
+	<!-- 여기서 할것은 view에 대한 설정을 할것이다. 먼저 namespaces mvc를 추가한다.  -->
+	
+	<!-- 이노테이션 인식 -->
+	<mvc:annotation-driven/>
+	<mvc:default-servlet-handler/>
+	
+	<!-- viewResolver 설정 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"/> <!-- 접두 -->
+		<property name="suffix" value=".jsp"/> <!-- 접미 -->
+		<property name="order" value="1"/>
+	</bean>
+	
+
+</beans>

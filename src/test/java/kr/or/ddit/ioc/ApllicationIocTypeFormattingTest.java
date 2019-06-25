@@ -40,7 +40,7 @@ public class ApllicationIocTypeFormattingTest {
 		
 		assertEquals("2019-06-21", reg_dt);
 		assertEquals("2019-06-21", mod_dt);
-		assertEquals(20190621, forVo.getNumber());
+		assertEquals(22200, forVo.getNumber());
 	}
 
 }

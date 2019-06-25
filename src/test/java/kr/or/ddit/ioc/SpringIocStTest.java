@@ -11,12 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.or.ddit.board.dao.IboardDao;
 import kr.or.ddit.board.service.IboardService;
+import kr.or.ddit.testenv.LogicTestEnv;
 
 
 
 @RunWith(SpringJUnit4ClassRunner.class)//spring 을 쓰기위해 클래스에 RunWith를 하여 권한을주고
 @ContextConfiguration("classpath:kr/or/ddit/ioc/application-ioc-st.xml") //Spring이 있는 경로를 설정해준다.
-public class SpringIocStTest {
+public class SpringIocStTest extends LogicTestEnv {
 
 	@Resource(name = "bDao") // Spring에 설정된 bean 객체 id 를 표시해 준다.
 	private IboardDao boardDao;

@@ -34,7 +34,7 @@ public class ApplicationIocTypeConvertTest {
 		String birth_str = sdf.format(birth);
 		/***Then***/
 		assertNotNull(userVo);
-		assertEquals("08-08-2019", birth_str);
+		assertEquals("2019-08-08", birth_str);
 	}
 	
 

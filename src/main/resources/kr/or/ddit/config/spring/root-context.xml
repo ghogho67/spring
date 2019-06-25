@@ -5,6 +5,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
-	<context:component-scan base-package="kr.or.ddit"></context:component-scan>
+	<!-- @Controller, @Service, @Repository, @Component -->
+	<!-- 지금은 @Service 랑 @REpository 만 읽게 해줄것이다. -->
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="false"> <!-- 디폴트 필터를 껏기 때문에 자동으로 잡아주진않는다. -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>	
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>	
+	</context:component-scan>
 
 </beans>

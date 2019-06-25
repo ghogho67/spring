@@ -37,4 +37,18 @@ public class UserDao implements IuserDao {
 		return sqlSession.delete("user.deleteUser",userId);
 	}
 	
+	
+	/**
+	 * Method : getuser
+	 * 작성자 : PC21
+	 * 변경이력 :
+	 * @param userId
+	 * @return
+	 * Method 설명 : 사용자 정보조회
+	 */
+	@Override
+	public UserVo getuser(String userId) {
+		return sqlSession.selectOne("user.getUser", userId);
+	}
+	
 }
