@@ -76,7 +76,7 @@ public class FileControllerTest extends ControllerEnv {
 		/***Given***/
 		
 		// 배포할때 플로젝트 안에 이미지가 있어야되는데 그 경로를 맞춘듯 합니다.
-//		File file = new File(getClass().getClassLoader().getResource("kr/or/ddit/testenv/main02.jsp").getFile());
+//		File file = new File(getClass().getClassLoader().getResource("kr/or/ddit/testenv/main02.jpg").getFile());
 		File file = new File("src/test/resources/kr/or/ddit/testenv/main02.jpg");
 		
 		FileInputStream fis = new FileInputStream(file);

@@ -25,9 +25,9 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
  $(document).ready(function(){
-	 var msg = '${msg}';
+	 /* var msg = '${msg}';
 	 if(msg != '')
-		 alert(msg);
+		 alert(msg); */
 	 
 	 
 	 //주소찾기 버튼 클릭 이벤트 핸들러
@@ -103,7 +103,7 @@
 					<div class="col-sm-8 blog-main">
 						<h2 class="sub-header">사용자 수정</h2>
 
-						<form id="frm" class="form-horizontal" role="form" action="${cp }/modify" method="post" 
+						<form id="frm" class="form-horizontal" role="form" action="${cp }/user/modify" method="post" 
 							enctype="multipart/form-data">
 							<input type="hidden" name="userId" value="${userVo.userId }" >
 						
@@ -178,14 +178,14 @@
 								</div>
 							</div>
 							
-							<div class="form-group">
-								<label for="pass" class="col-sm-2 control-label">비밀번호</label>
-								<div class="col-sm-10">
-									 <input type="password" class="form-control" id="pass"
-										name="pass" placeholder="비밀번호" value="${userVo.pass }">
+<!-- 							<div class="form-group"> -->
+<!-- 								<label for="pass" class="col-sm-2 control-label">비밀번호</label> -->
+<!-- 								<div class="col-sm-10"> -->
+<!-- 									 <input type="password" class="form-control" id="pass" -->
+<%-- 										name="pass" placeholder="비밀번호" value="${userVo.pass }"> --%>
 																	
-								</div>
-							</div>
+<!-- 								</div> -->
+<!-- 							</div> -->
 							
 							
 							

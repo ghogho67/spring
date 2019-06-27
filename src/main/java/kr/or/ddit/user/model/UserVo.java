@@ -8,8 +8,8 @@ import javax.servlet.http.HttpSessionBindingListener;
 import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 
-@Alias("userVo")
 public class UserVo implements HttpSessionBindingListener{
 	private String userId;
 	private String name;
@@ -18,6 +18,8 @@ public class UserVo implements HttpSessionBindingListener{
 	private String addr1;
 	private String addr2;
 	private String zipcd;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birth;
 	private String path;
 	private String filename;

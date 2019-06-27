@@ -4,28 +4,28 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="prod">
+<mapper namespace="lprod">
 	
-	<select id="prodList" resultType="prodVo">
+	<select id="lprodList" resultType="lprodVo">
 		select *
-		from PROD
+		from LPROD
 	</select>
 
-	 <select id="prodPagingList" resultType="prodVo" parameterType="pageVo">
+	 <select id="lprodPagingList" resultType="lprodVo" parameterType="pageVo">
            
       <![CDATA[
       SELECT c.*
       FROM(SELECT b.*, ROWNUM rn
            FROM (SELECT a.*
-                 FROM PROD a
-                 ORDER BY PROD_ID) b ) c
+                 FROM LPROD a
+                 ORDER BY LPROD_GU) b ) c
       WHERE rn >= (#{page} - 1) * #{pageSize} + 1 and rn <= #{page} * #{pageSize}
       ]]>
    </select>
    
-   <select id="prodCnt" resultType="int">
-      SELECT /*+ INDEX_FFS(PROD PK_PROD)*/ COUNT(*)
-      FROM   PROD
+   <select id="lprodCnt" resultType="int">
+      SELECT /*+ INDEX_FFS(LPROD PK_LPROD)*/ COUNT(*)
+      FROM   LPROD
    </select>
 
 

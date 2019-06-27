@@ -1,9 +1,15 @@
 package kr.or.ddit.testenv;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,6 +30,8 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 //mockMvc 객체를 잘알아야된다. 이것과 같이 쓰는게 webApplication 이 있다. 프레젠테이션 3-4 33 
 @WebAppConfiguration
 public class ControllerEnv {
+	@Resource(name ="datasource")
+	private DataSource datasource;
 	
 	@Autowired  //
 	protected WebApplicationContext ctx; // webApplication Context Spring container
@@ -32,6 +40,10 @@ public class ControllerEnv {
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+		ResourceDatabasePopulator rdp = new ResourceDatabasePopulator();
+		rdp.setContinueOnError(false);
+		rdp.addScript(new ClassPathResource("kr/or/ddit/testenv/dbInit.sql"));
+		DatabasePopulatorUtils.execute(rdp, datasource);
 	}
 	
 	@Ignore

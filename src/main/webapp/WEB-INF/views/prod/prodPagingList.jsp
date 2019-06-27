@@ -36,7 +36,7 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	$(".userTr").on("click",function(){
+/* 	$(".userTr").on("click",function(){
 		console.log("userTr");
 		//userId를 획득하는 방법
 		//$(this).find(".userId").text()
@@ -49,7 +49,7 @@ $(document).ready(function(){
 		//#frm 을 이용하여 submit();
 		$("#frm").submit();
 		
-	});
+	}); */
 });
 
 </script>
@@ -72,50 +72,42 @@ $(document).ready(function(){
 						<h2 class="sub-header">사용자</h2>
 						
 						<!-- 사용자 상세조회 : userId가 필요 이 form 태그는 화면상 안보일꺼임 -->
-						<form id ="frm" action="${cp}/user/user" method="get">
-							<input type="hidden" id="userId" name="userId"/>
-						
-						</form>
-						
-						
+					<%-- 	<form id ="frm" action="${cp }/user/user" method="get">
+							<input type="hidden" id="userId" name="userId"/> 
+							</form>
+						--%>
+						<select>
+							<option>전체보기</option>
+							<c:forEach items="${lprodList }" var="lprod" varStatus="status">
+							<option id="${lprod.lprod_gu }">${lprod.lprod_nm } </option>
+							</c:forEach>
+						</select>
 						<div class="table-responsive">
 							<table class="table table-striped">
 								<tr>
-									<th>사용자 아이디</th>
-									<th>사용자 이름</th>
-									<th>사용자 별명</th>
-									<th>등록일시</th>
+									<th>번호</th>
+									<th>PROD_NAME</th>
+									<th>PROD_COST</th>
+									<th>PROD_LGU</th>
 								</tr>
 								
 								
-								<c:forEach items="${userList }" var="user" varStatus ="status">
+								<c:forEach items="${prodList }" var="prod" varStatus ="status">
 									
-								<tr class="userTr" data-userid="${user.userId }">
+								<tr <%-- class="userTr" data-userid="${user.userId }" --%>>
 									<!-- ${status.index}/${status.count}/ 카운터 주기-->
-									<td class="userid">${user.userId }</td>
-									<td>${user.name }</td>
-									<td>${user.alias}</td>
-									<td></td>
+									<td>${prod.rn }</td>
+									<td class="userid">${prod.prod_name }</td>
+									<td>${prod.prod_cost }</td>
+									<td>${prod.prod_lgu}</td>
 								</tr>
 								</c:forEach>
 							</table>
 						</div>
 
-						<a  href="${cp}/user/form" class="btn btn-default pull-right">사용자 등록</a>
 
 						<div class="text-center">
 							<ul class="pagination">
-							<%-- 
-							<li <%if(pagevo.getPage() == 1){ 
-								%> class = "disabled"> 
-									 <span>«</span> </li>
-								<%}else if(pagevo.getPage() != 1){
-									int a = pagevo.getPage() - 1;	 
-										%> 
-								<li><a href = "${pageContext.request.contextPath}/userPagingList?page=<%=a%>
-																			">«</a></li>
-								<%}%>
-								--%>
 								
 								<c:choose>
 									<c:when test="${pageVo.page == 1}">
@@ -123,29 +115,11 @@ $(document).ready(function(){
 										 <span>«</span> </li>
 									</c:when>
 									<c:otherwise>
-									<li><a href = "${cp}/user/pagingList?page=${pageVo.page -1 }& pagesize=${pageVo.pageSize }
+									<li><a href = "${cp}/prod/pagingList?page=${pageVo.page -1 }& pagesize=${pageVo.pageSize }
 																			">«</a></li>
 									</c:otherwise>
 								</c:choose>
 							
-							
-					<%-- 		<%
-							 int paginationSize = (Integer)request.getAttribute("paginationSize");
-							for(int i = 1; i <= paginationSize; i++){
-													
-								if(pagevo.getPage() == i){%>
-								<li	class ="active">
-									<span><%=i%></span>
-								</li>
-								
-								<%}else{ %>
-								
-								<li>
-								<a href= "${pageContext.request.contextPath}/userPagingList?page=<%=i%>
-																			&pageSize=<%=pagevo.getPageSize()%>"> <%=i%> </a></li>
-								<%} %>
-							<%}	%>
-							--%>
 							
 							<c:forEach begin="1" end="${paginationSize }" step = "1" var = "i">
 								<c:choose >
@@ -154,26 +128,12 @@ $(document).ready(function(){
 										<span>${pageVo.page }</span>
 									</li>
 									</c:when>
-							<%-- --%>	<c:otherwise>
+										<c:otherwise>
 										<li>
-										<a href= "${cp}/user/pagingList?page=${i }&pageSize=${pageVo.pageSize}"> ${i} </a></li>
+										<a href= "${cp}/prod/pagingList?page=${i }&pageSize=${pageVo.pageSize}"> ${i} </a></li>
 										</c:otherwise>
 								</c:choose>
 							</c:forEach>											
-							
-							
-							
-							
-							
-<%-- 								<li <%if(pagevo.getPage() == paginationSize){  --%>
-<%-- 								%> class = "disabled"> --%>
-<!-- 									 <span>»</span> </li> -->
-<%-- 								<%}else if(pagevo.getPage() != paginationSize){ --%>
-<!-- // 									int a = pagevo.getPage() + 1;	 -->
-<%-- 										%> --%>
-<%-- 								<li><a href = "${pageContext.request.contextPath}/userPagingList?page=<%=a%> --%>
-<%-- 																			">»</a></li> --%>
-<%-- 								<%}%> --%>
 
 
 								<c:choose>
@@ -182,7 +142,7 @@ $(document).ready(function(){
 											 <span>»</span> </li>
 									</c:when>
 									<c:otherwise>
-									<li><a href = "${cp}/user/pagingList?page=${pageVo.page +1 }& pageSize=${pageVo.pageSize }
+									<li><a href = "${cp}/prod/pagingList?page=${pageVo.page +1 }& pageSize=${pageVo.pageSize }
 																				">»</a></li>
 									</c:otherwise>
 								</c:choose>

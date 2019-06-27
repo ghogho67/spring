@@ -59,13 +59,13 @@ $(document).ready(function(){
 						<h2 class="sub-header">사용자상세내역</h2>
 						
 
-						<form class="form-horizontal" role="form" id="frm" action="${cp}/modify" method="get">
+						<form class="form-horizontal" role="form" id="frm" action="${cp}/user/modify" method="get">
 							<input type="hidden" id="userId" name="userId"  value="${param.userId }">
 						
 						<div class="form-group">
 								<label for="userNm" class="col-sm-2 control-label">사용자이미지</label>
 								<div class="col-sm-10">
-									<img src="${cp}/profile?userId=${param.userId}">
+									<img src="${cp}/user/profile?userId=${param.userId}">
 								</div>
 							</div>
 						
