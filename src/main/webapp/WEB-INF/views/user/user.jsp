@@ -25,7 +25,9 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
+// 	<c:if test ="${msgFlashAttr != null}">
+// 		alert("${msgFlashAttr}");
+// 	</c:if>
 	
 
 	$('#userModifyBtn').on('click', function(){

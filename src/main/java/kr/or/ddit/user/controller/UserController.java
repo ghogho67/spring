@@ -1,33 +1,29 @@
 package kr.or.ddit.user.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import kr.or.ddit.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.page.model.PageVo;
 import kr.or.ddit.user.model.UserVo;
+import kr.or.ddit.user.model.UserVoValidator;
 import kr.or.ddit.user.service.IuserService;
 import utill.PartUtill;
 
@@ -58,6 +54,27 @@ public class UserController {
 		model.addAttribute("userList", userService.userList());
 		return "user/userList";
 	}
+	
+	
+	@RequestMapping("/userListExcel")
+	public String  userListExcel(Model model, String filename) {
+		List<String> header = new ArrayList<String>();
+		header.add("UserId");
+		header.add("Name");
+		header.add("Alias");
+		header.add("Addr1");
+		header.add("Addr2");
+		header.add("Zipcd");
+		header.add("Birth");
+		
+		model.addAttribute("header",header);
+		model.addAttribute("filename",filename);
+		model.addAttribute("data",userService.userList());
+		return "userExcelView";
+		
+	}
+	
+	
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/pagingList")
@@ -98,6 +115,21 @@ public class UserController {
 		model.addAttribute("userVo", userService.getuser(userId));
 		return "user/user"; // 접두 접미 application-context에 지정된걸 보면 저렇게 넣어줘야된다.
 	}
+	
+	
+	/**
+	 * Method : user 작성자 : PC21 변경이력 :
+	 * 
+	 * @param userId
+	 * @param model
+	 * @return Method 설명 : 사용자 정보 
+	 */
+	@RequestMapping("/userJson") // 다른 방법이 가능하지만 그것은 계속 호출하고 또 하고 이지만 
+								 //이런방법으로하면 재사용으로 가능하다는뜻이다.
+	public String userJson(String userId, Model model) {
+		model.addAttribute("userVo", userService.getuser(userId));
+		return "jsonView"; 
+	}
 
 	
 	
@@ -122,12 +154,52 @@ public class UserController {
 	 * @param model
 	 * @return Method 설명 : 사용자 등록
 	 */
-	@RequestMapping(path = "/form", method = RequestMethod.POST)
-	public String userForm(UserVo userVo, String userId, /* @RequestPart("profile") */MultipartFile profile,
+//	@RequestMapping(path = "/form", method = RequestMethod.POST)
+	public String userForm(UserVo userVo,BindingResult result,String userId, /* @RequestPart("profile") */MultipartFile profile,
 			Model model) { // Date 는 UserVo에 가면 DateTimeFormat 을 해서 썻다.
-		logger.debug("=======================================================================");
-		logger.debug("===========================userForm====================================");
-		logger.debug("=======================================================================");
+		new UserVoValidator().validate(userVo, result);
+		
+		if(result.hasErrors())
+			return "user/userForm";
+		
+		String viewName = "";
+
+		UserVo dbUser = userService.getuser(userId);
+		if (dbUser == null) {
+			if (profile.getSize() > 0) {
+				String filePath = fileUpload(userVo, profile);
+				try {
+					profile.transferTo(new File(filePath));
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+			int insertCnt = userService.insertUser(userVo);
+			if (insertCnt == 1)
+				viewName = "redirect:/user/pagingList";
+		} else {
+			model.addAttribute("msg", "이미 존재하는 사용자 입니다.");
+			viewName = userForm();
+		}
+		return viewName;
+	}
+	
+	/**
+	 * Method : userForm 작성자 : PC21 변경이력 :
+	 * 
+	 * @param userVo
+	 * @param userId
+	 * @param profile
+	 * @param model
+	 * @return Method 설명 : 사용자 등록
+	 */
+	@RequestMapping(path = "/form", method = RequestMethod.POST)
+	public String userFormJsr(@Valid UserVo userVo,BindingResult result,String userId, /* @RequestPart("profile") */MultipartFile profile,
+			Model model) { // Date 는 UserVo에 가면 DateTimeFormat 을 해서 썻다.
+		
+		if(result.hasErrors())
+			return "user/userForm";
+		
 		String viewName = "";
 
 		UserVo dbUser = userService.getuser(userId);
@@ -163,31 +235,12 @@ public class UserController {
 	 * Method 설명 : 사용자 사진 응답 생성
 	 */
 	@RequestMapping("/profile")
-	public void profile(String userId, HttpServletResponse response, HttpServletRequest request) throws IOException {
+	public String profile(String userId,Model model) throws IOException {
 		// 사용자 정보(path)를 조회
-		UserVo vo = userService.getuser(userId);
-		ServletOutputStream sos = response.getOutputStream();
-		FileInputStream fis = null;
-		String filePath = null;
-		// 사용자가 업로드한 파일이 존재할 경우 : path
-		if (vo.getPath() != null) {
-			filePath = vo.getPath();
-		} else {
-			filePath = request.getServletContext().getRealPath("/image/no_image.gif");
-			// webapp/image/no_image.gif
-		}
-		// path정보로 file을 읽어 드여서
-		File file = new File(filePath);
-		fis = new FileInputStream(file);
-
-		byte[] buffer = new byte[512];
-
-		// response객체에 스트림으로 써준다.
-		while (fis.read(buffer, 0, 512) != -1) {
-			sos.write(buffer);
-		}
-		fis.close();
-		sos.close();
+		UserVo userVo = userService.getuser(userId);
+		model.addAttribute("userVo",userVo);
+		
+		return "profileView";
 	}
 	
 	/**

@@ -6,6 +6,7 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
 <!DOCTYPE html>
@@ -25,9 +26,9 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
  $(document).ready(function(){
-	 var msg = '${msg}';
-	 if(msg != '')
-		 alert(msg);
+// 	 var msg = '${msg}';
+// 	 if(msg != '')
+// 		 alert(msg);
 	 
 	 
 	 //주소찾기 버튼 클릭 이벤트 핸들러
@@ -119,7 +120,8 @@
 								<label for="userId" class="col-sm-2 control-label">사용자아이디</label>
 								<div class="col-sm-10">
 									 <input type="text" class="form-control" id="userId"
-										name="userId" placeholder="사용자 아이디" value="${param.userid }">
+										name="userId" placeholder="사용자 아이디" value="${param.userId }">
+									<form:errors path="userVo.userId"/>
 								</div>
 							</div>
 							
@@ -130,6 +132,7 @@
 								<div class="col-sm-10">
 								 <input type="text" class="form-control" id="name"
 										name="name" placeholder="사용자 이름" value="${param.name }">
+										<form:errors path="userVo.name" />
 								</div>
 							</div>
 							
@@ -171,7 +174,7 @@
 							<div class="form-group">
 								<label for="birth" class="col-sm-2 control-label">생일</label>
 								<div class="col-sm-10">
-									 <input type="text" class="form-control" id="birth"
+									 <input type="date" class="form-control" id="birth"
 										name="birth" placeholder="생일" value="<fmt:parseDate value="${param.birth }" pattern="yyyy-mm-DD"/>">
 										
 																	

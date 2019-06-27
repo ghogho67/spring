@@ -102,6 +102,7 @@ $(document).ready(function(){
 						</div>
 
 						<a  href="${cp}/user/form" class="btn btn-default pull-right">사용자 등록</a>
+						<a  href="${cp}/user/userListExcel" class="btn btn-default pull-right">엑셀다운로드</a>
 
 						<div class="text-center">
 							<ul class="pagination">
@@ -186,8 +187,8 @@ $(document).ready(function(){
 																				">»</a></li>
 									</c:otherwise>
 								</c:choose>
-								
 							</ul>
+							
 						</div>
 					</div>
 				</div>

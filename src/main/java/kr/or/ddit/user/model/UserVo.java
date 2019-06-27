@@ -4,14 +4,18 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
+import javax.validation.constraints.Size;
 
-import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class UserVo implements HttpSessionBindingListener{
+	
+	@Size(min= 4)
 	private String userId;
+	
+	@Size(min = 1)
 	private String name;
 	private String alias;
 	private String pass;
