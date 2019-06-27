@@ -26,6 +26,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
+	
 
 	$('#userModifyBtn').on('click', function(){
 	 console.log("user.jsp 에서 보내기 modify로")

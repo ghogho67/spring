@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.ddit.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.page.model.PageVo;
@@ -58,6 +59,7 @@ public class UserController {
 		return "user/userList";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/pagingList")
 	/*
 	 * 인자 값으로 개별파라미터를 갖고는 로직 디폴트도 설정하였다. vo필드에 동일한 이름 값이 같은게 있으면 자동으로 파라미터값으로 들어온다
@@ -207,7 +209,7 @@ public class UserController {
 	
 	//사용자 정보 수정
 	@RequestMapping(path = "/modify", method = RequestMethod.POST)
-	public String userModify(UserVo userVo,MultipartFile profile, HttpSession session, Model model) {
+	public String userModify(UserVo userVo,MultipartFile profile, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 		//추후 ajax 요청으로 분리
 		//userVo.setPass(KISA_SHA256.encrypt(userVo.getPass()));
 		
@@ -222,8 +224,11 @@ public class UserController {
 		
 		int updateCnt = userService.updateUser(userVo);
 		if(updateCnt == 1) {
-			session.setAttribute("msg", "등록되었습니다");
-			return "redirect:/user/user?userId="+userVo.getUserId();
+//			session.setAttribute("msg", "등록되었습니다");
+			redirectAttributes.addFlashAttribute("msg", "업데이트 되셧습니다.");
+			redirectAttributes.addAttribute("userId",userVo.getUserId()); //자동으로 파라미터를 등록한다.
+//			return "redirect:/user/user?userId="+userVo.getUserId(); // 직접 적어줘서 파라미터를 등록한다.
+			return "redirect:/user/user";
 		}else 
 		
 		return userModify(userVo.getUserId(), model);
