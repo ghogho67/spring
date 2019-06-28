@@ -89,7 +89,6 @@ public class UserController {
 	 * PageVo pageVo = new PageVo(page, pageSize); 밑에는 jsp필드에 동일한 이름을 갖고있어 value 값을
 	 * 받아본다.
 	 */
-
 	public String userPagingList(PageVo pageVo, Model model) {
 		// page, pageSize의 값이 없을때 기본 값을 설정하는것은 pageVo get에 설정한다
 
@@ -100,7 +99,39 @@ public class UserController {
 		model.addAttribute("userList", userList);
 		model.addAttribute("paginationSize", paginationSize);
 		model.addAttribute("pageVo", pageVo);
-		return "user/userPagingList";
+//		return "user/userPagingList";
+		return "tiles.userPagingList";
+	}
+	
+	
+	
+	/**
+	 * Method : userPagingListAjax
+	 * 작성자 : PC21
+	 * 변경이력 :
+	 * @param pageVo
+	 * @param model
+	 * @return
+	 * Method 설명 :사용자 페이징 리스트 ajax 처리
+	 */
+	@RequestMapping("/pagingListAjax")
+	public String userPagingListAjax(PageVo pageVo, Model model) {
+		model.addAttribute("data", userService.userPagingList(pageVo));
+		//{data:{userLisst : {userId : 'brown', name: '브라운'...},{},{},..........,}
+		return "jsonView";
+	}
+	
+	@RequestMapping("/pagingListAjaxHtml")
+	public String userPagingListAjaxHtml(PageVo pageVo, Model model) {
+		model.addAttribute("data", userService.userPagingList(pageVo));
+		//{data:{userLisst : {userId : 'brown', name: '브라운'...},{},{},..........,}
+		return "user/userPagingListAjaxHtml";
+	}
+	
+	@RequestMapping("/pagingListAjaxView")
+	public String pagingListAjaxView() {
+		
+		return "tiles.pagingListAjaxView";
 	}
 
 	/**

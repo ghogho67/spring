@@ -100,7 +100,7 @@ public class MainController {
 		model.addAttribute("mainUserId","brown");
 		
 		//wiewName
-		return "main";
+		return "tiles.main";
 	}
 	
 	
