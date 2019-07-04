@@ -36,6 +36,7 @@ $(document).ready(function(){
 // 	userPagingListAjax(1,10);
 	userPagingListAjaxHtml(1,10);
 });
+
 //데이터 응답을 html로 받는 경우
 function userPagingListAjaxHtml(page, pageSize){
 	$.ajax({

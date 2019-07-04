@@ -5,11 +5,12 @@ import java.util.Date;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
-
+@XmlRootElement(name = "userVo")
 public class UserVo implements HttpSessionBindingListener{
 	
 	@Size(min= 4)
