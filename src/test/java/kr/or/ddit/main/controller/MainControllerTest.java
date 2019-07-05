@@ -57,7 +57,7 @@ public class MainControllerTest extends ControllerEnv {
 		logger.debug("userId :{}",userId);
 		logger.debug("===========================================================================================");
 		/***Then***/
-		assertEquals("main", viewName);
+		assertEquals("tiles.main", viewName);
 		assertEquals("brown", userId);
 		assertNotNull(mav.getModel().get("rangers"));
 		assertNotNull(mav.getModel().get("userVo"));
@@ -67,7 +67,7 @@ public class MainControllerTest extends ControllerEnv {
 	@Test
 	public void mainVeiwAndExpectTest() throws Exception {
 		mockMvc.perform(get("/main")).andExpect(status().isOk()) //main url 로 요청을 보냈을때 응답상태여야한다.
-									 .andExpect(view().name("main"))
+									 .andExpect(view().name("tiles.main"))
 									 .andExpect(model().attribute("mainUserId", "brown"))
 									 .andExpect(model().attributeExists("rangers"))
 									 .andExpect(model().attributeExists("userVo"));

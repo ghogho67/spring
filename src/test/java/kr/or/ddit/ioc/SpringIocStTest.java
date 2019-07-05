@@ -17,12 +17,12 @@ import kr.or.ddit.testenv.LogicTestEnv;
 
 @RunWith(SpringJUnit4ClassRunner.class)//spring 을 쓰기위해 클래스에 RunWith를 하여 권한을주고
 @ContextConfiguration("classpath:kr/or/ddit/ioc/application-ioc-st.xml") //Spring이 있는 경로를 설정해준다.
-public class SpringIocStTest extends LogicTestEnv {
+public class SpringIocStTest /* extends LogicTestEnv */ {
 
-	@Resource(name = "bDao") // Spring에 설정된 bean 객체 id 를 표시해 준다.
+	@Resource(name = "boardDao") // Spring에 설정된 bean 객체 id 를 표시해 준다.
 	private IboardDao boardDao;
 	
-	@Resource(name = "bService") //이노테이션은 한개의 변수위에 설정한다. 중복되는 이노테이션은 없다.
+	@Resource(name = "boardService") //이노테이션은 한개의 변수위에 설정한다. 중복되는 이노테이션은 없다.
 	private IboardService boardService;
 	
 	@Test
