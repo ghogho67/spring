@@ -15,10 +15,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
+//
+//@ContextConfiguration({"classpath:kr/or/ddit/config/spring/application-datasource-dev.xml",
+//	   "classpath:kr/or/ddit/config/spring/application-transaction.xml",
+//	   "classpath:kr/or/ddit/config/spring/root-context.xml"})
 
-@ContextConfiguration({"classpath:kr/or/ddit/config/spring/application-datasource-dev.xml",
-	   "classpath:kr/or/ddit/config/spring/application-transaction.xml",
-	   "classpath:kr/or/ddit/config/spring/root-context.xml"})
+import kr.or.ddit.config.spring.ApplicationDatasource;
+import kr.or.ddit.config.spring.ApplicationTransaction;
+import kr.or.ddit.config.spring.RootContext;
+
+@ContextConfiguration(classes = {RootContext.class, 
+								ApplicationDatasource.class, 
+								ApplicationTransaction.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 
 public class LogicTestEnv{

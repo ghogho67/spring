@@ -2,6 +2,10 @@
 
 select * from not_exists_in_prd_db;
 
+delete ament;
+delete reply;
+delete boarddetail; 
+delete board;
 delete users;
 
 Insert into PC21_TEST.USERS (USERID,NAME,ALIAS,PASS,ADDR1,ADDR2,ZIPCD,BIRTH,PATH,FILENAME) values ('userTest15155515','대덕인','대덕','308caa642ae3f0be8ed54ffbe4ca60642c7d1bc762f9fc6ca26acaf32393925','대전광역시 중구 중앙로76','영민빌딩 2층 204호','12345',to_date('19/05/03','RR/MM/DD'),'d:\upload\2019\06\620b33f7-5ae7-4e55-8c18-9e3e35d8b8fa.jpg','Penguins.jpg');
