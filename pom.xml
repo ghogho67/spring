@@ -24,6 +24,8 @@
  <properties>
  	<java.version>1.8</java.version>
 	<spring.version>4.3.24.RELEASE</spring.version>
+	<spring.version>4.3.24.RELEASE</spring.version>
+	<springbatch.version>3.0.10.RELEASE</springbatch.version>
   </properties>
   
 
@@ -49,6 +51,30 @@
 </build>
 
 <dependencies>
+	<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
+<dependency>
+    <groupId>org.springframework.batch</groupId>
+    <artifactId>spring-batch-core</artifactId>
+    <version>${springbatch.version}</version>
+</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-infrastructure -->
+<dependency>
+    <groupId>org.springframework.batch</groupId>
+    <artifactId>spring-batch-infrastructure</artifactId>
+    <version>${springbatch.version}</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-test -->
+<dependency>
+    <groupId>org.springframework.batch</groupId>
+    <artifactId>spring-batch-test</artifactId>
+    <version>${springbatch.version}</version>
+    <scope>test</scope>
+</dependency>
+
+	
+
+
 	<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->
 	<dependency>
 	    <groupId>org.apache.tiles</groupId>
