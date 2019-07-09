@@ -22,11 +22,10 @@
 	 	daily.dt = #{dt}
 	 )
 	 when matched then update set
-			cnt=${cnt}
+			cnt=#{cnt}
 		when not matched then insert
 			(pid,cid,dt,cnt)
-			(${pid},${cid},#{dt},#{cnt})
-			values ({pid},#{cid},#{dt},#{cnt})
+			values (#{pid},#{cid},#{dt},#{cnt})
 </insert>
 
 </mapper>
